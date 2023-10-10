@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
+import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from './config/config.module';
-import { UserModule } from './user/user.module';
-import { UploadModule } from './upload/upload.module';
-import { TestModule } from './test/test.module';
-import { LoginModule } from './login/login.module';
-import { MongooseModule } from '@nestjs/mongoose';
 import { GuardModule } from './guard/guard.module';
+import { LoginModule } from './login/login.module';
+import { TestModule } from './test/test.module';
+import { UploadModule } from './upload/upload.module';
+import { UserModule } from './user/user.module';
 // import { JwtModule } from './jwt/jwt.module';
 import { BlogsModule } from './blogs/blogs.module';
 import { TypesModule } from './types/types.module';
@@ -15,7 +15,8 @@ import { TypesModule } from './types/types.module';
   //  模块依赖其他模块
   // imports: [BlogsModule],
   imports: [
-    MongooseModule.forRoot('mongodb://127.0.0.1/blog'),
+    // MongooseModule.forRoot('mongodb://127.0.0.1/blog'),
+    MongooseModule.forRoot('mongodb://8.134.160.8/blog'),
     // TypeOrmModule.forRoot({
     //   type: 'mysql',
     //   host: 'localhost',

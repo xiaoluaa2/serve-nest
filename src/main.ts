@@ -1,8 +1,8 @@
+import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import { NextFunction, Request, Response } from 'express';
 import * as session from 'express-session';
-import { VersioningType, ValidationPipe } from '@nestjs/common';
-import { Request, Response, NextFunction } from 'express';
+import { AppModule } from './app.module';
 // 类型提示
 import { NestExpressApplication } from '@nestjs/platform-express';
 import * as cors from 'cors';
@@ -12,7 +12,6 @@ import { ResponseInterceptor } from './common/response';
 
 import { HttpFilter } from './common/fulter';
 // 守卫
-import { RoleGuard } from './guard/role.guard';
 const whiteList = ['/user'];
 function MiddlewareAll(req: Request, res: Response, next: NextFunction) {
   if (whiteList.includes(req.originalUrl)) {
@@ -55,6 +54,6 @@ async function bootstrap() {
   app.useStaticAssets(join(__dirname, 'images'), {
     prefix: '/xiaolu',
   });
-  await app.listen(3000);
+  await app.listen(5200);
 }
 bootstrap();

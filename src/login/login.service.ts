@@ -1,6 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { CreateLoginDto } from './dto/create-login.dto';
-import { UpdateLoginDto } from './dto/update-login.dto';
 import { JwtService } from '@nestjs/jwt';
 
 // 为了在 user.service 中操作数据库
@@ -8,7 +6,6 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
 // 引入数据类型
-import { CreateUserDTO, EditUserDTO } from './user.dto';
 import { User } from './user.interface';
 
 @Injectable()
