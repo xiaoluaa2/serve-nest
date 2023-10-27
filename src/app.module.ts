@@ -10,13 +10,14 @@ import { UploadModule } from './upload/upload.module';
 import { UserModule } from './user/user.module';
 // import { JwtModule } from './jwt/jwt.module';
 import { BlogsModule } from './blogs/blogs.module';
+import { CommentModule } from './comment/comment.module';
 import { TypesModule } from './types/types.module';
 @Module({
   //  模块依赖其他模块
   // imports: [BlogsModule],
   imports: [
-    // MongooseModule.forRoot('mongodb://127.0.0.1/blog'),
-    MongooseModule.forRoot('mongodb://8.134.160.8/blog'),
+    MongooseModule.forRoot('mongodb://127.0.0.1/blog'),
+    // MongooseModule.forRoot('mongodb://8.134.160.8/blog'),
     // TypeOrmModule.forRoot({
     //   type: 'mysql',
     //   host: 'localhost',
@@ -37,6 +38,7 @@ import { TypesModule } from './types/types.module';
     GuardModule,
     BlogsModule,
     TypesModule,
+    CommentModule,
   ],
   // 必须实例的controller类
   controllers: [AppController],

@@ -15,3 +15,4 @@ main.ts 应用程序的入口文件，它使用核心函数  NestFactory  来�
 
 cd src
 nest g res 'name' 创建模块
+commrnt

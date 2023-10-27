@@ -1,12 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { CreateBlogDto } from './dto/create-blog.dto';
 import { UpdateBlogDto } from './dto/update-blog.dto';
 // 为了在 user.service 中操作数据库
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
 // 引入数据类型
-import { CreateBlogsDTO, EditBlogsDTO } from './blogs.dto';
+import { CreateBlogsDTO } from './blogs.dto';
 import { Blogs, Comment } from './blogs.interface';
 interface BlogsResponse<T = unknown> {
   code: number;
@@ -32,23 +31,44 @@ export class BlogsService {
   }
 
   async findAll() {
-    const res = await this.blogsModel.find();
-    return res;
+    const pipeline: any = [
+      {
+        $lookup: {
+          from: 'types',
+          localField: 'ArticleTag',
+          foreignField: '_id',
+          as: 'TagName',
+        },
+      },
+    ];
+    const res = await this.blogsModel.aggregate(pipeline);
+    return res.map((item) => {
+      return {
+        ...item,
+        TagName: item.TagName[0].TagName,
+      };
+    });
   }
   async articleUpdate(blogs) {
     const res = await this.blogsModel.findOneAndUpdate(
       { _id: blogs._id },
-      { ...blogs },
+      {
+        ...blogs,
+        ArticleTag: blogs.ArticleTag,
+      },
       { new: true },
     );
+    return res;
   }
   async deleteBlog(blogs) {
-    console.log(blogs);
     const res = await this.blogsModel.deleteOne({ _id: blogs._id });
     return res;
   }
 
   async findOne(blog) {
+    console.log('4556');
+    console.log(blog);
+    console.log('4556');
     return await this.blogsModel.findById(blog.id).exec();
   }
   // 博文，评论，点击总数
@@ -69,10 +89,8 @@ export class BlogsService {
         },
       },
     ]);
-    console.log(Hits);
 
     const Blogs = await this.blogsModel.count();
-    console.log(Blogs);
     return {
       Blogs,
       Hits: Hits[0].hitsTotal,
@@ -81,7 +99,6 @@ export class BlogsService {
   }
   // 点击量
   async addLook(id) {
-    console.log(id);
     const res = await this.blogsModel.findOneAndUpdate(
       { _id: id },
       { $inc: { hits: 1 } }, // 自增 num 字段
@@ -120,13 +137,23 @@ export class BlogsService {
   }
   // 获取评论
   async getComment(body) {
-    console.log(body);
-
     const res = await this.commentModel.find({
       cid: body.cid,
       // parentId: body.parentId ? body.parentId : 0,
     });
     return res.reverse();
+  }
+  // 热门文章
+  async getHotList() {
+    const res = await this.blogsModel.find().sort({ hits: 1 }).limit(5);
+    return res.map((item) => {
+      return {
+        title: item.Title,
+        _id: item._id,
+        CreateDate: item.CreateDate,
+        ArticleCover: item.ArticleCover,
+      };
+    });
   }
 
   update(id: number, updateBlogDto: UpdateBlogDto) {

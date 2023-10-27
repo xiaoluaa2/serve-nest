@@ -1,36 +1,21 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Param, Patch, Post } from '@nestjs/common';
 import { BlogsService } from './blogs.service';
-import { CreateBlogDto } from './dto/create-blog.dto';
 import { UpdateBlogDto } from './dto/update-blog.dto';
-import { CreateBlogsDTO, EditBlogsDTO } from './blogs.dto';
-import { AuthGuard } from '@nestjs/passport';
 
 @Controller('blogs')
 export class BlogsController {
   constructor(private readonly blogsService: BlogsService) {}
-  @UseGuards(AuthGuard('jwt'))
+  // @UseGuards(AuthGuard('jwt'))
   @Post('addBlogs')
   async create(@Body() createBlogDto) {
     delete createBlogDto.Token;
     const res = await this.blogsService.create(createBlogDto);
-    console.log('res');
-    console.log(res);
     if (res) {
       return {
         code: 200,
         message: 'Success',
       };
     }
-    console.log(createBlogDto);
     return 55;
   }
   // 博文，评论，点击总数
@@ -47,16 +32,19 @@ export class BlogsController {
 
   @Post('detail')
   async findOne(@Body() blog) {
+    console.log('----');
+    console.log(blog);
+    console.log('----');
     const res = await this.blogsService.findOne(blog);
     return res;
   }
-  @UseGuards(AuthGuard('jwt'))
+  // @UseGuards(AuthGuard('jwt'))
   @Post('articleUpdate')
   articleUpdate(@Body() blog) {
     return this.blogsService.articleUpdate(blog);
   }
 
-  @UseGuards(AuthGuard('jwt'))
+  // @UseGuards(AuthGuard('jwt'))
   @Post('deleteBlog')
   deleteBlog(@Body() blog) {
     return this.blogsService.deleteBlog(blog);
@@ -79,6 +67,11 @@ export class BlogsController {
   @Post('getComment')
   getComment(@Body() body) {
     return this.blogsService.getComment(body);
+  }
+  // 热门文章
+  @Post('getHotList')
+  getHotList() {
+    return this.blogsService.getHotList();
   }
 
   @Delete(':id')

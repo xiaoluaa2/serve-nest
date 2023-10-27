@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { CreateTypeDto } from './dto/create-type.dto';
 import { UpdateTypeDto } from './dto/update-type.dto';
 // 为了在 操作数据库
 import { InjectModel } from '@nestjs/mongoose';
@@ -34,6 +33,27 @@ export class TypesService {
   async typeList() {
     const res = await this.typesModel.find();
     return res;
+  }
+  async typeListHome() {
+    const pipeline: any = [
+      {
+        $lookup: {
+          from: 'blogs',
+          localField: '_id',
+          foreignField: 'ArticleTag',
+          as: 'blogs',
+        },
+      },
+    ];
+    const res = await this.typesModel.aggregate(pipeline);
+    console.log('874897497498');
+    console.log(res);
+    return res.map((item) => {
+      return {
+        ...item,
+        blogs: item.blogs.length,
+      };
+    });
   }
 
   async deleteType(tag) {

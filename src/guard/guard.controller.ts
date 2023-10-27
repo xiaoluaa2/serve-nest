@@ -32,7 +32,6 @@ export class GuardController {
   @Role('admin')
   findAll(@ReqUrl('123') url: string) {
     console.log(url, 'url');
-
     return this.guardService.findAll();
   }
 

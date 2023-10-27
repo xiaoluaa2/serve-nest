@@ -1,26 +1,23 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
-  UseGuards,
+  Get,
+  Param,
+  Patch,
+  Post,
 } from '@nestjs/common';
-import { TypesService } from './types.service';
-import { CreateTypeDto } from './dto/create-type.dto';
 import { UpdateTypeDto } from './dto/update-type.dto';
-import { AuthGuard } from '@nestjs/passport';
+import { TypesService } from './types.service';
 @Controller('types')
 export class TypesController {
   constructor(private readonly typesService: TypesService) {}
 
-  @UseGuards(AuthGuard('jwt'))
+  // @UseGuards(AuthGuard('jwt'))
   @Post('addTypes')
   async create(@Body() types) {
     const res = await this.typesService.create(types);
-    console.log('res');
+    console.log('addTypes');
     console.log(res);
     if (res) {
       return res;
@@ -29,6 +26,15 @@ export class TypesController {
   @Post('typeList')
   async typeList() {
     const res = await this.typesService.typeList();
+    console.log('res');
+    console.log(res);
+    if (res) {
+      return res;
+    }
+  }
+  @Post('typeListHome')
+  async typeListHome() {
+    const res = await this.typesService.typeListHome();
     console.log('res');
     console.log(res);
     if (res) {
