@@ -7,7 +7,8 @@ export const CommentSchema = new Schema({
   publishdate: { type: String, required: true }, //评论发布时间
   userId: { type: String, required: true }, //评论人
   thumbup: { type: String }, //评论被点赞数
-  parentId: { type: ObjectId, required: true }, //0表示评论文章；若是评论的是评论则为被评论的评论c_id
+  // parentId: { type: ObjectId, required: true }, //0表示评论文章；若是评论的是评论则为被评论的评论c_id
+  parentId: { type: ObjectId }, //0表示评论文章；若是评论的是评论则为被评论的评论c_id
   commentNum: { type: Number },
   city: { type: String },
 });

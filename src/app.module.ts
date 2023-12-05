@@ -12,6 +12,8 @@ import { UserModule } from './user/user.module';
 import { BlogsModule } from './blogs/blogs.module';
 import { CommentModule } from './comment/comment.module';
 import { TypesModule } from './types/types.module';
+import { LinkModule } from './link/link.module';
+import { StatisticsModule } from './statistics/statistics.module';
 @Module({
   //  模块依赖其他模块
   // imports: [BlogsModule],
@@ -39,6 +41,8 @@ import { TypesModule } from './types/types.module';
     BlogsModule,
     TypesModule,
     CommentModule,
+    LinkModule,
+    StatisticsModule,
   ],
   // 必须实例的controller类
   controllers: [AppController],

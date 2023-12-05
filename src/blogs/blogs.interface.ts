@@ -9,6 +9,7 @@ export interface Blogs extends Document {
   CreateDate: string;
   ArticleTag: string;
   ArticleCover: string;
+  render: string;
 }
 export interface Comment extends Document {
   readonly _id: string;
@@ -16,6 +17,7 @@ export interface Comment extends Document {
   content: string;
   publishdate: string;
   userId: string;
+  head: string;
   // articleId: string;
   thumbup: number;
   parentId: string | number;

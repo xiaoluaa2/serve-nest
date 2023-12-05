@@ -11,17 +11,20 @@ export class CommentService {
   // 发布评论
   async postComment(body) {
     console.log('----------------------------------------');
-    const res = await this.messageModel.create({
+    const obj = {
       url: body.url,
       content: body.text,
       publishdate: new Date().getTime(), //评论发布时间
       userId: body.nickName,
       head: body.head,
       thumbup: 0, //评论被点赞数
-      parentId: body.parentId ? body.parentId : 0, //0表示评论文章；若是评论的是评论则为被评论的评论c_id
       commentNum: 0, //回复数量
       city: body.city,
-    });
+    };
+    if (body.parentId) {
+      obj['parentId'] = body.parentId;
+    }
+    const res = await this.messageModel.create(obj);
     return res;
   }
 
@@ -66,7 +69,8 @@ export class CommentService {
       {
         $match: {
           // 只留下顶级评论
-          parentId: { $in: ['0'] },
+          // parentId: { $in: ['0'] },
+          parentId: { $exists: false },
         },
       },
       {

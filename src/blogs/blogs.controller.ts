@@ -16,7 +16,7 @@ export class BlogsController {
         message: 'Success',
       };
     }
-    return 55;
+    return 'err';
   }
   // 博文，评论，点击总数
   @Post('BlogsSum')
@@ -26,10 +26,14 @@ export class BlogsController {
   }
 
   @Post('getBlogsList')
-  findAll() {
-    return this.blogsService.findAll();
+  findAll(@Body() body) {
+    return this.blogsService.findAll(body);
   }
-
+  // 随机文章
+  @Post('getBlogsRandom')
+  getBlogsRandom() {
+    return this.blogsService.getBlogsRandom();
+  }
   @Post('detail')
   async findOne(@Body() blog) {
     console.log('----');
@@ -72,6 +76,11 @@ export class BlogsController {
   @Post('getHotList')
   getHotList() {
     return this.blogsService.getHotList();
+  }
+  // 模糊查询
+  @Post('searchBlog')
+  searchBlog(@Body() body) {
+    return this.blogsService.searchBlog(body);
   }
 
   @Delete(':id')

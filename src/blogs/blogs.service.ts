@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Injectable } from '@nestjs/common';
 import { UpdateBlogDto } from './dto/update-blog.dto';
 // 为了在 user.service 中操作数据库
@@ -30,8 +31,13 @@ export class BlogsService {
     return res;
   }
 
-  async findAll() {
+  async findAll(body) {
+    // tag pageNum
+    console.log(564665);
+    console.log(body);
+
     const pipeline: any = [
+      { $sort: { CreateDate: -1 } },
       {
         $lookup: {
           from: 'types',
@@ -42,13 +48,63 @@ export class BlogsService {
       },
     ];
     const res = await this.blogsModel.aggregate(pipeline);
-    return res.map((item) => {
+    if (body.body && body.body.tag) {
+      const arr = res
+        .map((item) => {
+          return {
+            ...item,
+            TagName: item.TagName[0].TagName,
+          };
+        })
+        .filter((item) => {
+          return item.TagName == body.body.tag;
+        })
+        .map((item, index) => {
+          return {
+            ...item,
+            number: index + 1,
+          };
+        });
+      const list = arr.slice(
+        (body.body.pageNum - 1) * 20,
+        body.body.pageNum * 20,
+      );
       return {
-        ...item,
-        TagName: item.TagName[0].TagName,
+        total: arr.length,
+        list,
       };
-    });
+    } else {
+      const arr = res
+        .map((item) => {
+          return {
+            ...item,
+            TagName: item.TagName[0].TagName,
+          };
+        })
+        .map((item, index) => {
+          return {
+            ...item,
+            number: index + 1,
+          };
+        });
+      const list = arr.slice(
+        (body.body.pageNum - 1) * 6,
+        body.body.pageNum * 6,
+      );
+      return {
+        total: arr.length,
+        list,
+      };
+    }
   }
+  // 随机文章
+  async getBlogsRandom() {
+    // 设置随机排序
+    const pipeline = [{ $sample: { size: 1 } }];
+    const res = await this.blogsModel.aggregate(pipeline);
+    return res;
+  }
+  // 更新
   async articleUpdate(blogs) {
     const res = await this.blogsModel.findOneAndUpdate(
       { _id: blogs._id },
@@ -69,6 +125,8 @@ export class BlogsService {
     console.log('4556');
     console.log(blog);
     console.log('4556');
+    console.log(await this.blogsModel.findById(blog.id).exec());
+
     return await this.blogsModel.findById(blog.id).exec();
   }
   // 博文，评论，点击总数
@@ -128,6 +186,7 @@ export class BlogsService {
       content: body.text,
       publishdate: new Date().getTime(), //评论发布时间
       userId: body.nickName,
+      head: body.head,
       thumbup: 0, //评论被点赞数
       parentId: body.parentId ? body.parentId : 0, //0表示评论文章；若是评论的是评论则为被评论的评论c_id
       commentNum: 0, //回复数量
@@ -154,6 +213,16 @@ export class BlogsService {
         ArticleCover: item.ArticleCover,
       };
     });
+  }
+  // 模糊查询
+  async searchBlog(body) {
+    const regex = new RegExp(body.text);
+    // const res = await this.blogsModel.find({ Title: regex });
+    const res = await this.blogsModel.find({
+      $or: [{ Title: regex }, { Summary: regex }],
+    });
+
+    return res;
   }
 
   update(id: number, updateBlogDto: UpdateBlogDto) {

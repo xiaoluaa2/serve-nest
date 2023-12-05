@@ -11,4 +11,5 @@ export const BlogsSchema = new Schema({
   ArticleCover: { type: String, required: true },
   CommentNum: { type: Number },
   hits: { type: Number },
+  render: { type: String, required: true },
 });

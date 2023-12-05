@@ -7,7 +7,7 @@ export class CreateBlogsDTO {
   CreateDate: string;
   ArticleTag: string;
   ArticleCover: string;
-
+  render: string;
   CommentNum: number;
 }
 
@@ -17,6 +17,7 @@ export class EditBlogsDTO {
   order: string;
   Summary: string;
   Content: string;
+  render: string;
   CreateDate: string;
   ArticleTag: string;
   ArticleCover: string;

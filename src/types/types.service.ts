@@ -46,8 +46,6 @@ export class TypesService {
       },
     ];
     const res = await this.typesModel.aggregate(pipeline);
-    console.log('874897497498');
-    console.log(res);
     return res.map((item) => {
       return {
         ...item,
