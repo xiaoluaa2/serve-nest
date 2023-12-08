@@ -1,8 +1,8 @@
-import { Schema } from 'mongoose';
-
+import { Schema, Types } from 'mongoose';
+const ObjectId = Types.ObjectId;
 export const CommentSchema = new Schema({
   // _id: { type: String, required: true },
-  cid: { type: String, required: true }, //文章id
+  cid: { type: ObjectId, required: true }, //文章id
   content: { type: String }, //评论内容
   publishdate: { type: String, required: true }, //评论发布时间
   userId: { type: String, required: true }, //评论人

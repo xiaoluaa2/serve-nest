@@ -72,6 +72,23 @@ export class BlogsController {
   getComment(@Body() body) {
     return this.blogsService.getComment(body);
   }
+
+  // 所有评论
+  @Post('getAllComment')
+  getAllComment(@Body() body) {
+    return this.blogsService.getAllComment(body);
+  }
+
+  // 删除评论
+  @Post('deleteComment')
+  deleteComment(@Body() body) {
+    return this.blogsService.deleteComment(body);
+  }
+  // 更新评论
+  @Post('commentUpdate')
+  commentUpdate(@Body() body) {
+    return this.blogsService.commentUpdate(body);
+  }
   // 热门文章
   @Post('getHotList')
   getHotList() {

@@ -202,6 +202,57 @@ export class BlogsService {
     });
     return res.reverse();
   }
+  // 所有评论
+  async getAllComment(body) {
+    const { Skip, Limit } = body;
+    console.log(body);
+    const pipeline: any = [
+      {
+        $lookup: {
+          from: 'blogs',
+          localField: 'cid',
+          foreignField: '_id',
+          as: 'blog',
+        },
+      },
+      {
+        $skip: parseInt(Skip), // 跳过(page-1)*page_size条文档数，供分页使用
+      },
+      {
+        $limit: parseInt(Limit), // 限制返回的文档数为page_size，供分页使用
+      },
+    ];
+    let res = await this.commentModel.aggregate(pipeline);
+    res = res.map((item) => {
+      return {
+        ...item,
+        blog: item.blog[0].Title,
+      };
+    });
+    return {
+      commentList: res,
+      total: await this.commentModel.count(),
+    };
+  }
+  //删除评论
+  async deleteComment(body) {
+    console.log(body);
+    const res = await this.commentModel.deleteOne({ _id: body._id });
+    return res;
+  }
+  // 更新评论
+  async commentUpdate(blogs) {
+    console.log(blogs);
+
+    const res = await this.commentModel.findOneAndUpdate(
+      { _id: blogs._id },
+      {
+        ...blogs,
+      },
+      { new: true },
+    );
+    return res;
+  }
   // 热门文章
   async getHotList() {
     const res = await this.blogsModel.find().sort({ hits: 1 }).limit(5);
