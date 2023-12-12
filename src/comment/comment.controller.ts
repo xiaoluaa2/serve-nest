@@ -1,6 +1,14 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { CommentService } from './comment.service';
-
 @Controller('comment')
 export class CommentController {
   constructor(private readonly commentService: CommentService) {}
@@ -19,11 +27,13 @@ export class CommentController {
     return this.commentService.getCommentListTier(body);
   }
   // 修改评论
+  @UseGuards(AuthGuard('jwt'))
   @Post('updateComment')
   updateComment(@Body() body) {
     return this.commentService.updateComment(body);
   }
   // 删除评论
+  @UseGuards(AuthGuard('jwt'))
   @Post('deleteComment')
   deleteComment(@Body() body) {
     return this.commentService.deleteComment(body);
@@ -35,6 +45,7 @@ export class CommentController {
   }
 
   @Delete(':id')
+  @UseGuards(AuthGuard('jwt'))
   remove(@Param('id') id: string) {
     return this.commentService.remove(+id);
   }

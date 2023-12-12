@@ -6,7 +6,9 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { UpdateTypeDto } from './dto/update-type.dto';
 import { TypesService } from './types.service';
 @Controller('types')
@@ -14,6 +16,7 @@ export class TypesController {
   constructor(private readonly typesService: TypesService) {}
 
   // @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthGuard('jwt'))
   @Post('addTypes')
   async create(@Body() types) {
     const res = await this.typesService.create(types);
@@ -23,6 +26,7 @@ export class TypesController {
       return res;
     }
   }
+
   @Post('typeList')
   async typeList() {
     const res = await this.typesService.typeList();
@@ -32,6 +36,7 @@ export class TypesController {
       return res;
     }
   }
+
   @Post('typeListHome')
   async typeListHome() {
     const res = await this.typesService.typeListHome();
@@ -41,7 +46,7 @@ export class TypesController {
       return res;
     }
   }
-
+  @UseGuards(AuthGuard('jwt'))
   @Post('deleteType')
   async deleteType(@Body() tag) {
     const res = await this.typesService.deleteType(tag);

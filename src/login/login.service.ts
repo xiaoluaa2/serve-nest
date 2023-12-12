@@ -18,6 +18,8 @@ export class LoginService {
   ) {}
   // 登陆成功
   async createToken(user) {
+    console.log('888888888888888888888888');
+
     const payload = { username: user.username };
     //在实际项目中一般要进行数据库验证查看用户用户名密码是否正确
     console.log(user);

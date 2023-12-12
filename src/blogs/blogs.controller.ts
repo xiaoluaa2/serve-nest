@@ -1,7 +1,15 @@
-import { Body, Controller, Delete, Param, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Param,
+  Patch,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { BlogsService } from './blogs.service';
 import { UpdateBlogDto } from './dto/update-blog.dto';
-
 @Controller('blogs')
 export class BlogsController {
   constructor(private readonly blogsService: BlogsService) {}
@@ -42,13 +50,14 @@ export class BlogsController {
     const res = await this.blogsService.findOne(blog);
     return res;
   }
-  // @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthGuard('jwt'))
   @Post('articleUpdate')
   articleUpdate(@Body() blog) {
     return this.blogsService.articleUpdate(blog);
   }
 
   // @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthGuard('jwt'))
   @Post('deleteBlog')
   deleteBlog(@Body() blog) {
     return this.blogsService.deleteBlog(blog);
@@ -80,11 +89,13 @@ export class BlogsController {
   }
 
   // 删除评论
+  @UseGuards(AuthGuard('jwt'))
   @Post('deleteComment')
   deleteComment(@Body() body) {
     return this.blogsService.deleteComment(body);
   }
   // 更新评论
+  @UseGuards(AuthGuard('jwt'))
   @Post('commentUpdate')
   commentUpdate(@Body() body) {
     return this.blogsService.commentUpdate(body);
@@ -101,6 +112,7 @@ export class BlogsController {
   }
 
   @Delete(':id')
+  @UseGuards(AuthGuard('jwt'))
   remove(@Param('id') id: string) {
     return this.blogsService.remove(+id);
   }

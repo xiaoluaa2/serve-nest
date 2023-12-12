@@ -6,7 +6,9 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { CreateLinkDto } from './dto/create-link.dto';
 import { UpdateLinkDto } from './dto/update-link.dto';
 import { LinkService } from './link.service';
@@ -41,6 +43,7 @@ export class LinkController {
   }
 
   @Post('addLink')
+  @UseGuards(AuthGuard('jwt'))
   addLink(@Body() link) {
     return this.linkService.addLink(link);
   }
@@ -48,6 +51,7 @@ export class LinkController {
   linkList(@Body() body) {
     return this.linkService.linkList(body);
   }
+  @UseGuards(AuthGuard('jwt'))
   @Post('deleteLink')
   deleteLink(@Body() body) {
     return this.linkService.deleteLink(body);
