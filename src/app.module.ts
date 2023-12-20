@@ -11,14 +11,14 @@ import { UserModule } from './user/user.module';
 // import { JwtModule } from './jwt/jwt.module';
 import { BlogsModule } from './blogs/blogs.module';
 import { CommentModule } from './comment/comment.module';
-import { TypesModule } from './types/types.module';
 import { LinkModule } from './link/link.module';
 import { StatisticsModule } from './statistics/statistics.module';
+import { TypesModule } from './types/types.module';
 @Module({
   //  模块依赖其他模块
   // imports: [BlogsModule],
   imports: [
-    MongooseModule.forRoot('mongodb://127.0.0.1/blog'),
+    MongooseModule.forRoot('mongodb://blog:Lu.13290525519@127.0.0.1/blog'),
     // MongooseModule.forRoot('mongodb://8.134.160.8/blog'),
     // TypeOrmModule.forRoot({
     //   type: 'mysql',
