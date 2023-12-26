@@ -14,29 +14,64 @@ export class CommentController {
   constructor(private readonly commentService: CommentService) {}
   // 发布评论
   @Post('postComment')
-  postComment(@Body() body) {
-    return this.commentService.postComment(body);
+  async postComment(@Body() body) {
+    const res = await this.commentService.postComment(body);
+    if (res) {
+      return {
+        success: res,
+      };
+    } else {
+      return { error: res };
+    }
   }
 
   @Post('getCommentList')
-  findAll(@Body() body) {
-    return this.commentService.findAll(body);
+  async findAll(@Body() body) {
+    const res = await this.commentService.findAll(body);
+    if (res) {
+      return {
+        success: res,
+      };
+    } else {
+      return { error: res };
+    }
   }
   @Post('getCommentListTier')
-  getCommentListTier(@Body() body) {
-    return this.commentService.getCommentListTier(body);
+  async getCommentListTier(@Body() body) {
+    const res = await this.commentService.getCommentListTier(body);
+    if (res) {
+      return {
+        success: res,
+      };
+    } else {
+      return { error: res };
+    }
   }
   // 修改评论
   @UseGuards(AuthGuard('jwt'))
   @Post('updateComment')
-  updateComment(@Body() body) {
-    return this.commentService.updateComment(body);
+  async updateComment(@Body() body) {
+    const res = await this.commentService.updateComment(body);
+    if (res) {
+      return {
+        success: res,
+      };
+    } else {
+      return { error: res };
+    }
   }
   // 删除评论
   @UseGuards(AuthGuard('jwt'))
   @Post('deleteComment')
-  deleteComment(@Body() body) {
-    return this.commentService.deleteComment(body);
+  async deleteComment(@Body() body) {
+    const res = await this.commentService.deleteComment(body);
+    if (res) {
+      return {
+        success: res,
+      };
+    } else {
+      return { error: res };
+    }
   }
 
   @Get(':id')

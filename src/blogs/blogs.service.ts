@@ -162,6 +162,7 @@ export class BlogsService {
       { $inc: { hits: 1 } }, // 自增 num 字段
       { new: true },
     );
+    return res;
   }
   // 发布评论
   async postComment(body) {

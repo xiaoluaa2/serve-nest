@@ -1,6 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { CreateStatisticDto } from './dto/create-statistic.dto';
-import { UpdateStatisticDto } from './dto/update-statistic.dto';
 // 为了在 user.service 中操作数据库
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -13,9 +11,6 @@ export class StatisticsService {
     @InjectModel('statistics')
     private readonly statisticsModel: Model<Statistics>,
   ) {}
-  create(createStatisticDto: CreateStatisticDto) {
-    return 'This action adds a new statistic';
-  }
 
   async findAll(body) {
     const res = await this.statisticsModel
@@ -28,17 +23,6 @@ export class StatisticsService {
     };
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} statistic`;
-  }
-
-  update(id: number, updateStatisticDto: UpdateStatisticDto) {
-    return `This action updates a #${id} statistic`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} statistic`;
-  }
   async foreend(body, ip) {
     const res = await this.statisticsModel.create({
       ...body,

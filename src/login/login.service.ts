@@ -22,20 +22,18 @@ export class LoginService {
 
     const payload = { username: user.username };
     //在实际项目中一般要进行数据库验证查看用户用户名密码是否正确
-    console.log(user);
-
     const data = await this.userModel.findOne({
       user_name: user.username,
       password: user.password,
     });
-    console.log(data);
     if (!data) {
-      return { status: 0, message: '登陆失败', success: false };
+      return { error: '登陆失败' };
     }
-    console.log(user);
     return {
-      user: user,
-      token: this.jwtService.sign(payload),
+      success: {
+        user: user,
+        token: this.jwtService.sign(payload),
+      },
     };
   }
 

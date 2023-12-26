@@ -2,16 +2,15 @@ import {
   Controller,
   Get,
   Post,
-  Body,
-  UseInterceptors,
-  UploadedFile,
   Res,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
-import { UploadService } from './upload.service';
-import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
-import { Request, Response, NextFunction } from 'express';
-import { join } from 'path';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { zip } from 'compressing';
+import { Response } from 'express';
+import { join } from 'path';
+import { UploadService } from './upload.service';
 @Controller('upload')
 export class UploadController {
   constructor(private readonly uploadService: UploadService) {}
@@ -19,8 +18,6 @@ export class UploadController {
   @Post('album')
   @UseInterceptors(FileInterceptor('file'))
   upload(@UploadedFile() file) {
-    console.log(564665);
-    console.log(file);
     if (file) {
       return file.filename;
     }

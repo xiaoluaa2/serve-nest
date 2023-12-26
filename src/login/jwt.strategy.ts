@@ -1,6 +1,6 @@
-import { Strategy, ExtractJwt } from 'passport-jwt';
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
+import { ExtractJwt, Strategy } from 'passport-jwt';
 import { jwtKey } from './config';
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -16,15 +16,14 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   async validate(payload) {
     console.log('payload');
     console.log(payload);
-
     //payload与加密前的json对象一样
     //因为已经验证过token了所以在payload中进行验证用户信息是否为空
-
     if (!payload.username) {
       return false;
     }
     const user = { username: payload.username };
     console.log(user);
+
     //返回后可在req中得到返回的值
     return user;
   }

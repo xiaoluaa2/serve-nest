@@ -18,12 +18,10 @@ import { TypesModule } from './types/types.module';
   //  模块依赖其他模块
   // imports: [BlogsModule],
   imports: [
-    MongooseModule.forRoot(
-      'mongodb://root:Lu.13290525519@47.116.126.150:27017',
-      {
-        dbName: 'blog',
-      },
-    ),
+    MongooseModule.forRoot('mongodb://127.0.0.1/blog'),
+    // MongooseModule.forRoot('mongodb://root:Lu.13290525519@127.0.0.1:27017', {
+    //   dbName: 'blog',
+    // }),
     // MongooseModule.forRoot('mongodb://8.134.160.8/blog'),
     // TypeOrmModule.forRoot({
     //   type: 'mysql',

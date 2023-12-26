@@ -20,47 +20,84 @@ export class BlogsController {
     const res = await this.blogsService.create(createBlogDto);
     if (res) {
       return {
-        code: 200,
-        message: 'Success',
+        success: res,
       };
+    } else {
+      return { error: res };
     }
-    return 'err';
   }
   // 博文，评论，点击总数
   @Post('BlogsSum')
   async BlogsSum() {
     const res = await this.blogsService.BlogsSum();
-    return res;
+    if (res) {
+      return {
+        success: res,
+      };
+    } else {
+      return { error: res };
+    }
   }
 
   @Post('getBlogsList')
-  findAll(@Body() body) {
-    return this.blogsService.findAll(body);
+  async findAll(@Body() body) {
+    const res = await this.blogsService.findAll(body);
+    if (res) {
+      return {
+        success: res,
+      };
+    } else {
+      return { error: res };
+    }
   }
   // 随机文章
   @Post('getBlogsRandom')
-  getBlogsRandom() {
-    return this.blogsService.getBlogsRandom();
+  async getBlogsRandom() {
+    const res = await this.blogsService.getBlogsRandom();
+    if (res) {
+      return {
+        success: res,
+      };
+    } else {
+      return { error: res };
+    }
   }
   @Post('detail')
   async findOne(@Body() blog) {
-    console.log('----');
-    console.log(blog);
-    console.log('----');
     const res = await this.blogsService.findOne(blog);
-    return res;
+    if (res) {
+      return {
+        success: res,
+      };
+    } else {
+      return { error: res };
+    }
   }
   @UseGuards(AuthGuard('jwt'))
   @Post('articleUpdate')
-  articleUpdate(@Body() blog) {
-    return this.blogsService.articleUpdate(blog);
+  async articleUpdate(@Body() blog) {
+    const res = await this.blogsService.articleUpdate(blog);
+    if (res) {
+      return {
+        success: res,
+      };
+    } else {
+      return { error: res };
+    }
   }
 
   // @UseGuards(AuthGuard('jwt'))
   @UseGuards(AuthGuard('jwt'))
   @Post('deleteBlog')
-  deleteBlog(@Body() blog) {
-    return this.blogsService.deleteBlog(blog);
+  async deleteBlog(@Body() blog) {
+    const res = await this.blogsService.deleteBlog(blog);
+    if (res) {
+      return {
+        success: res,
+      };
+    } else {
+      return { error: res };
+    }
   }
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateBlogDto: UpdateBlogDto) {
@@ -68,52 +105,115 @@ export class BlogsController {
   }
   // 点击量
   @Post('addLook')
-  addLook(@Body() body) {
-    return this.blogsService.addLook(body.id);
+  async addLook(@Body() body) {
+    const res = await this.blogsService.addLook(body.id);
+    if (res) {
+      return {
+        success: res,
+      };
+    } else {
+      return { error: res };
+    }
   }
   // 发布评论
   @Post('postComment')
-  postComment(@Body() body) {
-    return this.blogsService.postComment(body);
+  async postComment(@Body() body) {
+    const res = await this.blogsService.postComment(body);
+    if (res) {
+      return {
+        success: res,
+      };
+    } else {
+      return { error: res };
+    }
   }
   // 获取评论
   @Post('getComment')
-  getComment(@Body() body) {
-    return this.blogsService.getComment(body);
+  async getComment(@Body() body) {
+    const res = await this.blogsService.getComment(body);
+    if (res) {
+      return {
+        success: res,
+      };
+    } else {
+      return { error: res };
+    }
   }
 
   // 所有评论
   @Post('getAllComment')
-  getAllComment(@Body() body) {
-    return this.blogsService.getAllComment(body);
+  async getAllComment(@Body() body) {
+    const res = await this.blogsService.getAllComment(body);
+    if (res) {
+      return {
+        success: res,
+      };
+    } else {
+      return { error: res };
+    }
   }
 
   // 删除评论
   @UseGuards(AuthGuard('jwt'))
   @Post('deleteComment')
-  deleteComment(@Body() body) {
-    return this.blogsService.deleteComment(body);
+  async deleteComment(@Body() body) {
+    const res = await this.blogsService.deleteComment(body);
+    if (res) {
+      return {
+        success: res,
+      };
+    } else {
+      return { error: res };
+    }
   }
   // 更新评论
   @UseGuards(AuthGuard('jwt'))
   @Post('commentUpdate')
-  commentUpdate(@Body() body) {
-    return this.blogsService.commentUpdate(body);
+  async commentUpdate(@Body() body) {
+    const res = await this.blogsService.commentUpdate(body);
+    if (res) {
+      return {
+        success: res,
+      };
+    } else {
+      return { error: res };
+    }
   }
   // 热门文章
   @Post('getHotList')
-  getHotList() {
-    return this.blogsService.getHotList();
+  async getHotList() {
+    const res = await this.blogsService.getHotList();
+    if (res) {
+      return {
+        success: res,
+      };
+    } else {
+      return { error: res };
+    }
   }
   // 模糊查询
   @Post('searchBlog')
-  searchBlog(@Body() body) {
-    return this.blogsService.searchBlog(body);
+  async searchBlog(@Body() body) {
+    const res = await this.blogsService.searchBlog(body);
+    if (res) {
+      return {
+        success: res,
+      };
+    } else {
+      return { error: res };
+    }
   }
 
   @Delete(':id')
   @UseGuards(AuthGuard('jwt'))
-  remove(@Param('id') id: string) {
-    return this.blogsService.remove(+id);
+  async remove(@Param('id') id: string) {
+    const res = await this.blogsService.remove(+id);
+    if (res) {
+      return {
+        success: res,
+      };
+    } else {
+      return { error: res };
+    }
   }
 }

@@ -1,22 +1,19 @@
 import {
-  Controller,
-  Param,
-  Get,
-  Req,
-  Res,
-  Inject,
-  Session,
-  Post,
   Body,
-  Put,
+  Controller,
   Delete,
+  Get,
+  Inject,
+  Param,
+  Post,
+  Put,
   UseGuards,
 } from '@nestjs/common';
 
 import { AuthGuard } from '@nestjs/passport';
-import { UserService } from './user.service';
 import { CreateUserDTO, EditUserDTO } from './user.dto';
 import { User } from './user.interface';
+import { UserService } from './user.service';
 interface UserResponse<T = unknown> {
   code: number;
   data?: T;
@@ -102,33 +99,4 @@ export class UserController {
       message: 'Success.',
     };
   }
-
-  // @Get('getList')
-  // list(): string[] {
-  //   return this.ss;
-  // }
-  // @Get('gongchang')
-  // Gongchang(): number {
-  //   return this.gongchang;
-  // }
-  // @Get('base')
-  // Base(): number {
-  //   return this.base;
-  // }
-
-  // @Get('code')
-  // createCode(@Req() req, @Res() res, @Session() session) {
-  //   const captcha = this.userService.createCode();
-  //   session.doce = captcha.text;
-  //   res.type('image/svg+xml');
-  //   res.send(captcha.data);
-  // }
-  // @Get()
-  // findAll() {
-  //   return this.userService.findAll();
-  // }
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.userService.findOne(id);
-  // }
 }

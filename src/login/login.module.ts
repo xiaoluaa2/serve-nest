@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { LoginService } from './login.service';
-import { LoginController } from './login.controller';
-import { JwtStrategy } from './jwt.strategy';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtKey } from './config';
+import { JwtStrategy } from './jwt.strategy';
+import { LoginController } from './login.controller';
+import { LoginService } from './login.service';
 
 import { MongooseModule } from '@nestjs/mongoose';
 // 引入用户数据表的格式
@@ -22,7 +22,7 @@ const UserTable = MongooseModule.forFeature([
       // 或是在createToken时候设定
       signOptions: {
         //token的有效时长
-        expiresIn: '24h',
+        expiresIn: '60s',
       },
     }),
     UserTable,

@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { UpdateTypeDto } from './dto/update-type.dto';
 // 为了在 操作数据库
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -58,17 +57,5 @@ export class TypesService {
     console.log(tag);
     const res = await this.typesModel.deleteOne({ _id: tag._id });
     return res;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} type`;
-  }
-
-  update(id: number, updateTypeDto: UpdateTypeDto) {
-    return `This action updates a #${id} type`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} type`;
   }
 }

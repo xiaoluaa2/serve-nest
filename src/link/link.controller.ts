@@ -1,59 +1,43 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Patch,
-  Post,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { CreateLinkDto } from './dto/create-link.dto';
-import { UpdateLinkDto } from './dto/update-link.dto';
 import { LinkService } from './link.service';
 
 @Controller('link')
 export class LinkController {
   constructor(private readonly linkService: LinkService) {}
-
-  @Post()
-  create(@Body() createLinkDto: CreateLinkDto) {
-    return this.linkService.create(createLinkDto);
-  }
-
-  @Get()
-  findAll() {
-    return this.linkService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.linkService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateLinkDto: UpdateLinkDto) {
-    return this.linkService.update(+id, updateLinkDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.linkService.remove(+id);
-  }
-
   @Post('addLink')
   @UseGuards(AuthGuard('jwt'))
-  addLink(@Body() link) {
-    return this.linkService.addLink(link);
+  async addLink(@Body() link) {
+    const res = await this.linkService.addLink(link);
+    if (res) {
+      return {
+        success: res,
+      };
+    } else {
+      return { error: res };
+    }
   }
   @Post('linkList')
-  linkList(@Body() body) {
-    return this.linkService.linkList(body);
+  async linkList(@Body() body) {
+    const res = await this.linkService.linkList(body);
+    if (res) {
+      return {
+        success: res,
+      };
+    } else {
+      return { error: res };
+    }
   }
   @UseGuards(AuthGuard('jwt'))
   @Post('deleteLink')
-  deleteLink(@Body() body) {
-    return this.linkService.deleteLink(body);
+  async deleteLink(@Body() body) {
+    const res = await this.linkService.deleteLink(body);
+    if (res) {
+      return {
+        success: res,
+      };
+    } else {
+      return { error: res };
+    }
   }
 }
