@@ -22,7 +22,7 @@ const UserTable = MongooseModule.forFeature([
       // 或是在createToken时候设定
       signOptions: {
         //token的有效时长
-        expiresIn: '60s',
+        expiresIn: '72h',
       },
     }),
     UserTable,
