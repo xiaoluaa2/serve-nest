@@ -29,9 +29,9 @@ async function bootstrap() {
     type: VersioningType.URI,
   });
   // 静态目录
-  app.useStaticAssets(join(__dirname, 'images'), {
+  app.useStaticAssets(join(__dirname, 'staticResource'), {
     // 自定义路径
-    prefix: '/img',
+    prefix: '/static',
   });
   app.use(MiddlewareAll);
   app.use(
