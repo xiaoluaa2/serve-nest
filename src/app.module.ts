@@ -12,6 +12,7 @@ import { UserModule } from './user/user.module';
 import { BlogsModule } from './blogs/blogs.module';
 import { CommentModule } from './comment/comment.module';
 import { LinkModule } from './link/link.module';
+import { MusicModule } from './music/music.module';
 import { StatisticsModule } from './statistics/statistics.module';
 import { TypesModule } from './types/types.module';
 @Module({
@@ -46,6 +47,7 @@ import { TypesModule } from './types/types.module';
     CommentModule,
     LinkModule,
     StatisticsModule,
+    MusicModule,
   ],
   // 必须实例的controller类
   controllers: [AppController],

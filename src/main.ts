@@ -29,7 +29,8 @@ async function bootstrap() {
     type: VersioningType.URI,
   });
   // 静态目录
-  app.useStaticAssets(join(__dirname, 'staticResource'), {
+  app.useStaticAssets(join(__dirname, '..', 'public'), {
+    // app.useStaticAssets(join(__dirname, 'public'), {
     // 自定义路径
     prefix: '/static',
   });
