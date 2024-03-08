@@ -1,0 +1,65 @@
+# name: Build and Deploy
+# on: # 监听 master 分支上的 push 事件
+#   push:
+#     branches:
+#       - master
+# jobs:
+#   build-and-deploy:
+#     runs-on: ubuntu-latest # 构建环境使用 ubuntu
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v2.3.1
+#         with:
+#           persist-credentials: false
+
+#       - name: Install and Build # 下载依赖 打包项目
+#         run: |
+#           npm install
+#           npm run build
+
+#       - name: Deploy # 将打包内容发布到 github page
+#         uses: JamesIves/github-pages-deploy-action@3.5.9 # 使用别人写好的 actions
+#         with: # 自定义环境变量
+#           ACCESS_TOKEN: ${{ secrets.VUE_ADMIN_TEMPLATE }} # VUE_ADMIN_TEMPLATE 是我的 secret 名称，需要替换成你的
+#           BRANCH: master
+#           FOLDER: dist
+#           REPOSITORY_NAME: woai3c/woai3c.github.io # 这是我的 github page 仓库
+#           TARGET_FOLDER: github-actions-demo # 打包的文件将放到静态服务器 github-actions-demo 目录下
+
+name: Build app and deploy to aliyun
+on:
+  #监听push操作
+  push:
+    branches:
+      # master分支，你也可以改成其他分支
+      - master
+jobs:
+  build:
+    # 工作流程要运行在什么操作系统上，ci.yml 文件定义的是最新稳定版的 centos
+    runs-on: centos-latest
+    # setps 其实是一个数组，在 YAML 语法中，以 - 开始就是一个数组项。例如 ['a', 'b', 'c'] 用 YAML 语法表示为：
+    # name，小步骤的名称。
+    # uses，小步骤使用的 actions 库名称或路径，Github Actions 允许你使用别人写好的 Actions 库。
+    # run，小步骤要执行的 shell 命令。
+    # env，设置与小步骤相关的环境变量。
+    # with，提供参数。
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: Install Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.16.2'
+      - name: Install npm dependencies
+        run: npm install
+      - name: Run build task
+        run: npm run build
+      - name: Deploy to Server
+        uses: easingthemes/ssh-deploy@v2.1.5
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
+          ARGS: '-rltgoDzvO --delete'
+          SOURCE: dist # 这是要复制到阿里云静态服务器的文件夹名称
+          REMOTE_HOST: '47.116.126.150' # 你的阿里云公网地址
+          REMOTE_USER: root # 阿里云登录后默认为 root 用户，并且所在文件夹为 root
+          TARGET: /root/www/blog/serve-nest # 打包后的 dist 文件夹将放在 /root/node-server
