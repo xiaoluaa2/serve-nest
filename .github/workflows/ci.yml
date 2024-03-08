@@ -8,7 +8,7 @@ on:
 jobs:
   build:
   # 工作流程要运行在什么操作系统上，ci.yml 文件定义的是最新稳定版的 centos
-  runs-on: centos-latest
+  runs-on: ubuntu-latest
   # setps 其实是一个数组，在 YAML 语法中，以 - 开始就是一个数组项。例如 ['a', 'b', 'c'] 用 YAML 语法表示为：
   # name，小步骤的名称。
   # uses，小步骤使用的 actions 库名称或路径，Github Actions 允许你使用别人写好的 Actions 库。
@@ -20,6 +20,7 @@ jobs:
     - uses: actions/checkout@v1
     - name: Install Node.js
       uses: actions/setup-node@v1
+      node-version: '14'
     - name: Install npm dependencies
       run: npm install
     - name: Run build task
