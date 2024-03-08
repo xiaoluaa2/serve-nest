@@ -1,36 +1,26 @@
 name: Build app and deploy to aliyun
 on:
-  #监听push操作
   push:
     branches:
-      # master分支，你也可以改成其他分支
       - dev
 jobs:
   build:
-  # 工作流程要运行在什么操作系统上，ci.yml 文件定义的是最新稳定版的 centos
-  runs-on: ubuntu-latest
-  # setps 其实是一个数组，在 YAML 语法中，以 - 开始就是一个数组项。例如 ['a', 'b', 'c'] 用 YAML 语法表示为：
-  # name，小步骤的名称。
-  # uses，小步骤使用的 actions 库名称或路径，Github Actions 允许你使用别人写好的 Actions 库。
-  # run，小步骤要执行的 shell 命令。
-  # env，设置与小步骤相关的环境变量。
-  # with，提供参数。
-
-  steps:
-    - uses: actions/checkout@v1
-    - name: Install Node.js
-      uses: actions/setup-node@v1
-      node-version: '14'
-    - name: Install npm dependencies
-      run: npm install
-    - name: Run build task
-      run: npm run build
-    - name: Deploy to Server
-      uses: easingthemes/ssh-deploy@v2.1.5
-      env:
-        SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
-        ARGS: '-rltgoDzvO --delete'
-        SOURCE: './' # 这是要复制到阿里云静态服务器的文件夹名称
-        REMOTE_HOST: '47.116.126.150' # 你的阿里云公网地址
-        REMOTE_USER: root # 阿里云登录后默认为 root 用户，并且所在文件夹为 root
-        TARGET: /www/blog/serve-nest # 打包后的 dist 文件夹将放在 /root/node-server
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Install Node.js
+        uses: actions/setup-node@v1
+        node-version: '14'
+      - name: Install npm dependencies
+        run: npm install
+      - name: Run build task
+        run: npm run build
+      - name: Deploy to Server
+        uses: easingthemes/ssh-deploy@v2.1.5
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
+          ARGS: '-rltgoDzvO --delete'
+          SOURCE: './'
+          REMOTE_HOST: '47.116.126.150'
+          REMOTE_USER: root
+          TARGET: /www/blog/serve-nest
