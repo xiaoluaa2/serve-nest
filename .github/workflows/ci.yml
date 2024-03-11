@@ -16,6 +16,8 @@ jobs:
         run: npm install
       - name: Run build task
         run: npm run build
+      - name: Set permissions for SSH private key
+        run: chmod 600 /home/runner/.ssh/deploy_key
       - name: Deploy to Server
         uses: easingthemes/ssh-deploy@v2.1.5
         env:
